@@ -31,7 +31,7 @@ fn main() {
         } else if selection == 3 {
             break;
         } else {
-            println!("{}", "Podaj 1, 2 lub 3".red())
+            println!("{}", "Podaj 1, 2 lub 3".bright_red())
         }
     }
 }
@@ -39,10 +39,14 @@ fn main() {
 fn input(prompt: &str) -> String {
     let mut input = String::new();
     let mut output = String::new();
-    println!("{}", prompt.blue());
-    io::stdin()
-        .read_line(&mut input)
-        .expect("Błąd odczytu linii");
+
+    loop {
+        println!("{}", prompt.blue());
+        match io::stdin().read_line(&mut input) {
+            Ok(_) => break,
+            Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
+        }
+    }
     for character in input.trim().to_uppercase().chars() {
         if CHAR_TABLE.to_string().contains(character) {
             output += character.to_string().as_str()
@@ -58,11 +62,11 @@ fn parse_to_nmb(input: String) -> i32 {
 fn get_base() -> i32 {
     let mut inpt: i32;
     loop {
-        inpt = parse_to_nmb(input("Podaj podstawę"));
+        inpt = parse_to_nmb(input("\nPodaj podstawę"));
         if inpt >= 2 {
-            break
+            break;
         }
-        println!("{}", "Podstawa musi być większa lub równa 2".red())
+        println!("{}", "Podstawa musi być większa lub równa 2".bright_red())
     }
     inpt
 }
