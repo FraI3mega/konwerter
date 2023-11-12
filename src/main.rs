@@ -81,9 +81,33 @@ fn to_dec(input: String, base: i32) -> i32 {
 
 fn to_alien(mut input: i32, base: i32) -> String {
     let mut output = String::new();
+    if input == 0 {output += "0"}
     while input > 0 {
-        output += (input % base).to_string().as_str();
-        input /= base
+        output += CHAR_TABLE.chars().nth((input % base) as usize).unwrap_or_default().to_string().as_str();
+        input /= base;
     }
     output.chars().rev().collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::{to_alien, to_dec};
+
+    #[test]
+    fn edge_cases() {
+        assert_eq!(to_alien(0, 16), "0");
+        assert_eq!(to_alien(0, 8), "0");
+        assert_eq!(to_alien(0, 2), "0");
+        assert_eq!(to_dec(0.to_string(), 16), 0);
+        assert_eq!(to_dec(0.to_string(), 8), 0);
+        assert_eq!(to_dec(0.to_string(), 2), 0);
+    }
+    #[test]
+    fn aln() {
+        assert_eq!(to_alien(1234, 16), format!("{:x}", 1234).to_uppercase());
+        assert_eq!(to_alien(5647, 16), format!("{:x}", 5647).to_uppercase());
+        assert_eq!(to_alien(1, 16), format!("{:x}", 1).to_uppercase());
+        assert_eq!(to_alien(9999999, 16), format!("{:x}", 9999999).to_uppercase());
+        assert_eq!(to_alien(1234, 10), "1234")
+    }
 }
