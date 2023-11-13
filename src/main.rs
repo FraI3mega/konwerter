@@ -65,13 +65,13 @@ fn get_number(prompt: &str) -> i32 {
             println!("{}", prompt.blue());
             match io::stdin().read_line(&mut input) {
                 Ok(_) => break,
-    Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
+                Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
             }
         }
 
         for character in input.trim().to_uppercase().chars() {
             if character.is_numeric() {
-    output += character.to_string().as_str()
+                output += character.to_string().as_str()
             }
         }
 
@@ -90,8 +90,8 @@ fn get_base() -> i32 {
         loop {
             println!("{}", "\nPodaj podstawę: ".blue());
             match io::stdin().read_line(&mut input) {
-    Ok(_) => break,
-            Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
+                Ok(_) => break,
+                Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
             }
         }
 
