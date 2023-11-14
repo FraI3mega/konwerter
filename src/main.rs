@@ -1,12 +1,75 @@
-const CHAR_TABLE: &str = "0123456789ABCDEF";
+use clap::{Parser, ValueEnum};
 use colored::Colorize;
-use std::io;
+use std::{io, process::exit};
 
-// selection 1 - dec do alien
-// selection 2 - alien to dec
-// selection 3 - exit
+const CHAR_TABLE: &str = "0123456789ABCDEF";
+
+#[derive(Parser)]
+#[command(author, version, about, long_about = None)]
+struct Cli {
+    /// W jakim trybie ma działać program
+    #[arg(value_enum)]
+    mode: Option<Mode>,
+    #[arg(value_parser = clap::value_parser!(u32).range(2..))]
+    /// Podstawa systemu obcego
+    base: Option<u32>,
+    // Liczby do zamiany
+    values: Option<Vec<String>>,
+}
+
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
+enum Mode {
+    /// Konwersja z systemu obcego na dziesiętny
+    Dec,
+    /// Konwersja z systemu dziesiętnego na obcy
+    Alien,
+}
 
 fn main() {
+    //Tryb cli
+    let cli = Cli::parse();
+
+    match cli.mode {
+        Some(Mode::Dec) => {
+            for val in cli.values.unwrap_or_default() {
+                println!(
+                    "{} to w systemie dziesiętnym {}",
+                    &val.to_string().magenta(),
+                    to_dec(
+                        val.trim().to_uppercase(),
+                        cli.base.to_owned().unwrap_or_default()
+                    )
+                    .to_string()
+                    .green()
+                )
+            }
+            exit(0)
+        }
+        Some(Mode::Alien) => {
+            for val in cli.values.unwrap_or_default() {
+                println!(
+                    "{} to {} w systemie o podstawie {}",
+                    &val.to_string().magenta(),
+                    to_alien(
+                        val.trim().parse().unwrap_or_default(),
+                        cli.base.to_owned().unwrap_or_default()
+                    )
+                    .to_string()
+                    .green(),
+                    &cli.base.unwrap_or_default().to_string().blue()
+                )
+            }
+            exit(0)
+        }
+        _ => println!(
+            "{}",
+            "Brak argumentów. Uruchamiam tryb interaktywny."
+                .bright_magenta()
+                .blink()
+        ),
+    }
+
+    //Tryb interaktywny
     loop {
         println!(
             "{}",
@@ -56,7 +119,7 @@ fn get_number_string(prompt: &str) -> String {
     output
 }
 
-fn get_number(prompt: &str) -> i32 {
+fn get_number(prompt: &str) -> u32 {
     let mut input = String::new();
     let mut output = String::new();
 
@@ -82,7 +145,7 @@ fn get_number(prompt: &str) -> i32 {
     }
 }
 
-fn get_base() -> i32 {
+fn get_base() -> u32 {
     let mut input = String::new();
     let mut output = String::new();
 
@@ -96,7 +159,7 @@ fn get_base() -> i32 {
         }
 
         for character in input.trim().to_uppercase().chars() {
-            if character.is_digit(10) {
+            if character.is_ascii_digit() {
                 output += character.to_string().as_str()
             }
         }
@@ -108,15 +171,15 @@ fn get_base() -> i32 {
     }
 }
 
-fn to_dec(input: String, base: i32) -> i32 {
-    let mut result: i32 = 0;
+fn to_dec(input: String, base: u32) -> u32 {
+    let mut result: u32 = 0;
     for character in input.chars() {
-        result = result * base + CHAR_TABLE.find(character).unwrap_or_default() as i32;
+        result = result * base + CHAR_TABLE.find(character).unwrap_or_default() as u32;
     }
     result
 }
 
-fn to_alien(mut input: i32, base: i32) -> String {
+fn to_alien(mut input: u32, base: u32) -> String {
     let mut output = String::new();
     if input == 0 {
         return "0".to_string();
