@@ -1,6 +1,6 @@
+use clap::{Parser, ValueEnum};
 use colored::Colorize;
 use std::{io, process::exit};
-use clap::{Parser, ValueEnum};
 
 const CHAR_TABLE: &str = "0123456789ABCDEF";
 
@@ -14,7 +14,7 @@ struct Cli {
     /// Podstawa systemu obcego
     base: Option<u32>,
     // Liczby do zamiany
-    values: Option<Vec<String>>
+    values: Option<Vec<String>>,
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum)]
@@ -32,20 +32,43 @@ fn main() {
     match cli.mode {
         Some(Mode::Dec) => {
             for val in cli.values.unwrap_or_default() {
-                println!("{} to w systemie dziesiętnym {}", &val.to_string().magenta(), to_dec(val.trim().to_uppercase(), cli.base.to_owned().unwrap_or_default()).to_string().green())
+                println!(
+                    "{} to w systemie dziesiętnym {}",
+                    &val.to_string().magenta(),
+                    to_dec(
+                        val.trim().to_uppercase(),
+                        cli.base.to_owned().unwrap_or_default()
+                    )
+                    .to_string()
+                    .green()
+                )
             }
             exit(0)
-        },
+        }
         Some(Mode::Alien) => {
             for val in cli.values.unwrap_or_default() {
-                println!("{} to {} w systemie o podstawie {}", &val.to_string().magenta(), to_alien(val.trim().parse().unwrap_or_default(), cli.base.to_owned().unwrap_or_default()).to_string().green(), &cli.base.unwrap_or_default().to_string().blue())
+                println!(
+                    "{} to {} w systemie o podstawie {}",
+                    &val.to_string().magenta(),
+                    to_alien(
+                        val.trim().parse().unwrap_or_default(),
+                        cli.base.to_owned().unwrap_or_default()
+                    )
+                    .to_string()
+                    .green(),
+                    &cli.base.unwrap_or_default().to_string().blue()
+                )
             }
             exit(0)
-        },
-        _ => println!("{}", "Brak argumentów. Uruchamiam tryb interaktywny.".bright_magenta().blink())
-        
+        }
+        _ => println!(
+            "{}",
+            "Brak argumentów. Uruchamiam tryb interaktywny."
+                .bright_magenta()
+                .blink()
+        ),
     }
-    
+
     //Tryb interaktywny
     loop {
         println!(
@@ -105,13 +128,13 @@ fn get_number(prompt: &str) -> u32 {
             println!("{}", prompt.blue());
             match io::stdin().read_line(&mut input) {
                 Ok(_) => break,
-    Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
+                Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
             }
         }
 
         for character in input.trim().to_uppercase().chars() {
             if character.is_numeric() {
-    output += character.to_string().as_str()
+                output += character.to_string().as_str()
             }
         }
 
@@ -130,8 +153,8 @@ fn get_base() -> u32 {
         loop {
             println!("{}", "\nPodaj podstawę: ".blue());
             match io::stdin().read_line(&mut input) {
-    Ok(_) => break,
-            Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
+                Ok(_) => break,
+                Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
             }
         }
 
