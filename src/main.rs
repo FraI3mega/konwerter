@@ -136,7 +136,7 @@ fn get_base() -> u32 {
         }
 
         for character in input.trim().to_uppercase().chars() {
-            if character.is_digit(10) {
+            if character.is_ascii_digit() {
                 output += character.to_string().as_str()
             }
         }
