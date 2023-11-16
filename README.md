@@ -2,4 +2,4 @@
 # konwerter
 W Rust
 Interfejs interaktywny i qrgumenty
-**WIP**
+
