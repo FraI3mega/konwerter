@@ -10,3 +10,4 @@ description = "Konwerter systemów liczbowych"
 [dependencies]
 clap = { version = "4.4.8", features = ["derive"] }
 colored = "2.0.4"
+no-panic = "0.1.26"
