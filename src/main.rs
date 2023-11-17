@@ -92,9 +92,9 @@ fn main() {
             let base = get_base();
             println!("\nW systemie dziesiętnym to {}", to_dec(inpt, base))
         } else if selection == 3 {
-            break;
+            exit(0);
         } else {
-            println!("{}", "\nPodaj 1, 2 lub 3".bright_red())
+            eprintln!("{}", "\nPodaj 1, 2 lub 3".bright_red())
         }
     }
 }
@@ -107,7 +107,7 @@ fn get_number_string(prompt: &str) -> String {
         println!("{}", prompt.blue());
         match io::stdin().read_line(&mut input) {
             Ok(_) => break,
-            Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
+            Err(_) => eprintln!("{}", "Nie można odczytać wejścia".bright_red()),
         }
     }
 
@@ -128,7 +128,7 @@ fn get_number(prompt: &str) -> u32 {
             println!("{}", prompt.blue());
             match io::stdin().read_line(&mut input) {
                 Ok(_) => break,
-                Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
+                Err(_) => eprintln!("{}", "Nie można odczytać wejścia".bright_red()),
             }
         }
 
@@ -140,7 +140,7 @@ fn get_number(prompt: &str) -> u32 {
 
         match output.parse() {
             Ok(nmb) => return nmb,
-            Err(_) => println!("{}", "Podaj liczbę".bright_red()),
+            Err(_) => eprintln!("{}", "Podaj liczbę".bright_red()),
         }
     }
 }
@@ -154,7 +154,7 @@ fn get_base() -> u32 {
             println!("{}", "\nPodaj podstawę: ".blue());
             match io::stdin().read_line(&mut input) {
                 Ok(_) => break,
-                Err(_) => println!("{}", "Nie można odczytać wejścia".bright_red()),
+                Err(_) => eprintln!("{}", "Nie można odczytać wejścia".bright_red()),
             }
         }
 
@@ -166,7 +166,7 @@ fn get_base() -> u32 {
 
         match output.parse() {
             Ok(nmb) => return nmb,
-            Err(_) => println!("{}", "Błąd: Nie podano liczby".bright_red()),
+            Err(_) => eprintln!("{}", "Błąd: Nie podano liczby".bright_red()),
         }
     }
 }
