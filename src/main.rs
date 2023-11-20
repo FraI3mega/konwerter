@@ -13,7 +13,7 @@ struct Cli {
     #[arg(value_parser = clap::value_parser!(u32).range(2..))]
     /// Podstawa systemu obcego
     base: Option<u32>,
-    // Liczby do zamiany
+    /// Liczby do zamiany
     values: Option<Vec<String>>,
 }
 
