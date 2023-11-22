@@ -17,7 +17,7 @@ pub mod input {
 
         for character in input.trim().to_uppercase().chars() {
             if CHAR_TABLE.to_string().contains(character) {
-                output += character.to_string().as_str()
+                output += character.to_string().as_str();
             }
         }
         output
@@ -38,7 +38,7 @@ pub mod input {
 
             for character in input.trim().to_uppercase().chars() {
                 if character.is_numeric() {
-                    output += character.to_string().as_str()
+                    output += character.to_string().as_str();
                 }
             }
 
@@ -64,7 +64,7 @@ pub mod input {
 
             for character in input.trim().to_uppercase().chars() {
                 if character.is_ascii_digit() {
-                    output += character.to_string().as_str()
+                    output += character.to_string().as_str();
                 }
             }
 

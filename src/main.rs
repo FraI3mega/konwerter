@@ -37,11 +37,11 @@ fn main() {
                     &val.to_string().magenta(),
                     to_dec(
                         val.trim().to_uppercase(),
-                        cli.base.to_owned().unwrap_or_default()
+                        cli.base.unwrap_or_default()
                     )
                     .to_string()
                     .green()
-                )
+                );
             }
             exit(0)
         }
@@ -52,12 +52,12 @@ fn main() {
                     &val.to_string().magenta(),
                     to_alien(
                         val.trim().parse().unwrap_or_default(),
-                        cli.base.to_owned().unwrap_or_default()
+                        cli.base.unwrap_or_default()
                     )
                     .to_string()
                     .green(),
                     &cli.base.unwrap_or_default().to_string().blue()
-                )
+                );
             }
             exit(0)
         }
@@ -86,15 +86,15 @@ fn main() {
                 &inpt,
                 &base,
                 to_alien(inpt, base)
-            )
+            );
         } else if selection == 2 {
             let inpt = get_number_string("\nPodaj liczbę");
             let base = get_base();
-            println!("\nW systemie dziesiętnym to {}", to_dec(inpt, base))
+            println!("\nW systemie dziesiętnym to {}", to_dec(inpt, base));
         } else if selection == 3 {
             exit(0);
         } else {
-            eprintln!("{}", "\nPodaj 1, 2 lub 3".bright_red())
+            eprintln!("{}", "\nPodaj 1, 2 lub 3".bright_red());
         }
     }
 }
