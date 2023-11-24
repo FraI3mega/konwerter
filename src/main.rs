@@ -35,12 +35,9 @@ fn main() {
                 println!(
                     "{} to w systemie dziesiętnym {}",
                     &val.to_string().magenta(),
-                    to_dec(
-                        val.trim().to_uppercase(),
-                        cli.base.unwrap_or_default()
-                    )
-                    .to_string()
-                    .green()
+                    to_dec(val.trim().to_uppercase(), cli.base.unwrap_or_default())
+                        .to_string()
+                        .green()
                 );
             }
             exit(0)
