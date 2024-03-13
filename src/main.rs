@@ -88,9 +88,10 @@ fn main() {
             let inpt = get_number_string("\nPodaj liczbę");
             let base = get_base();
             println!("\nW systemie dziesiętnym to {}", to_dec(inpt, base));
-        } else if selection == 3 {
-            exit(0);
         } else {
+            if selection == 3 {
+                exit(0);
+            }
             eprintln!("{}", "\nPodaj 1, 2 lub 3".bright_red());
         }
     }
